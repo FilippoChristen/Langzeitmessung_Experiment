@@ -14,6 +14,8 @@ import time
 import os
 import io
 import csv
+import queue
+import sys
 # Configuration is repeated in firmware status packets; show it once when arming.
 CONFIG_REPORT_FIELDS = {
     "aad_config", "aad_clock_hz", "seconds", "threshold", "lpf",
@@ -66,15 +68,49 @@ class EventJournal:
                 yield data
             except (ValueError, IndexError):
                 continue
-    def _write(self, line):
+    def _open(self):
         if self.log_stream is None:
             self.log_stream = self.path.open("a+", encoding="utf-8") if self.path else io.StringIO()
-            self.events.update((item["node"], item["event"]) for item in self.records())
-        self.log_stream.seek(0, 2)
-        self.log_stream.write(line + "\n")
-        self.log_stream.flush()
-        if self.path:
-            os.fsync(self.log_stream.fileno())
+            try:
+                # A crash can leave an incomplete final row. Never treat it as a
+                # durable receipt, or join the next event onto that partial row.
+                self.log_stream.seek(0)
+                end = 0
+                while True:
+                    line = self.log_stream.readline()
+                    if not line:
+                        break
+                    if not line.endswith("\n"):
+                        self.log_stream.seek(end)
+                        self.log_stream.truncate()
+                        break
+                    end = self.log_stream.tell()
+                self.log_stream.flush()
+                if self.path:
+                    os.fsync(self.log_stream.fileno())
+                self.events.update((item["node"], item["event"]) for item in self.records())
+            except OSError:
+                self._discard_stream()
+                raise
+    def _discard_stream(self):
+        stream, self.log_stream = self.log_stream, None
+        try:
+            stream.close()
+        except OSError:
+            pass
+    def _write(self, line):
+        self._open()
+        try:
+            self.log_stream.seek(0, 2)
+            self.log_stream.write(line + "\n")
+            self.log_stream.flush()
+            if self.path:
+                os.fsync(self.log_stream.fileno())
+        except OSError:
+            # Reopen/recover before retry: the failed write may have left either
+            # a complete row needing fsync or an incomplete final row.
+            self._discard_stream()
+            raise
     def write_config(self, node, values):
         """Write a configuration snapshot before the corresponding ARM command."""
         with self.lock:
@@ -107,11 +143,13 @@ class EventJournal:
                     self.active_nodes.add(node)
                     self.arm_replies.add(reply)
                     return True
-                if node not in self.active_nodes:
+                if result != "EVENT" and node not in self.active_nodes:
                     return False
                 if result != "EVENT" and not any(word in result for word in ("FAILED", "ERROR", "REJECTED")):
                     return False
                 identity = (node, data.get("event"))
+                if result == "EVENT":
+                    self._open()  # Load durable receipts before duplicate lookup.
                 if result == "EVENT" and identity in self.events:
                     return False
                 self._write(self.format_line(data, now))
@@ -278,8 +316,30 @@ class Controller(cmd.Cmd):
         self.lock = threading.Lock()
         self.sequence = time.time_ns() // 1000
         self.stopping = threading.Event()
+        self.output = queue.Queue(maxsize=128)
+        self.output_dropped = 0
+        self.printer = threading.Thread(target=self.print_messages, daemon=True)
+        self.printer.start()
         self.receiver = threading.Thread(target=self.receive, daemon=True)
         self.receiver.start()
+    def announce(self, message):
+        """Terminal backpressure must never prevent durable logging or ACKs."""
+        try:
+            self.output.put_nowait((sys.stdout, message))
+        except queue.Full:
+            self.output_dropped += 1
+    def print_messages(self):
+        while not self.stopping.is_set() or not self.output.empty():
+            try:
+                stream, message = self.output.get(timeout=.2)
+            except queue.Empty:
+                continue
+            try:
+                print(message, file=stream)
+            except (OSError, ValueError):
+                pass  # Display failure does not affect the measurement journal.
+            finally:
+                self.output.task_done()
     def receive(self):
         """Validate packets, learn hardware identities and acknowledge event metadata."""
         while not self.stopping.is_set():
@@ -329,7 +389,7 @@ class Controller(cmd.Cmd):
                     fresh = self.journal.record(data)
                     self.sock.sendto(f"ED1 {node} {boot} 0 ACK_EVENT {event}".encode(), address)
                     if fresh:
-                        print(f"\n{node}: event {event}, SD session {data.get('session')}, "
+                        self.announce(f"\n{node}: event {event}, SD session {data.get('session')}, "
                               f"recording_ok={data.get('recording_ok')}, "
                               f"recording_error={data.get('recording_error', 'NONE' if data.get('recording_ok') else 'INCOMPLETE')}, "
                               f"trigger={data.get('trigger_source', 'UNKNOWN')}, microphone_mask={data.get('microphone_mask', 0)}, "
@@ -340,13 +400,13 @@ class Controller(cmd.Cmd):
                               f"completed={data.get('completed_events', 0)}")
                 elif data.get("result") in ("AAD_WAKE", "EVENT_TRIGGER_WAKE"):
                     # Cumulative detections, including USB tests; no recording or EVENT ACK implied.
-                    print(f"\n{node}: Event-Trigger WAKE DETECTED, microphone_mask={data.get('microphone_mask')}, "
+                    self.announce(f"\n{node}: Event-Trigger WAKE DETECTED, microphone_mask={data.get('microphone_mask')}, "
                           f"counts MIC1/MIC2={data.get('counts')} (since boot)")
                 elif data.get("result") == "ENTERING_SLEEP":
-                    print(f"\n{node}: attempting event sleep ({data.get('radio_mode')}, "
+                    self.announce(f"\n{node}: attempting event sleep ({data.get('radio_mode')}, "
                           f"{data.get('wnm_depth')}); RTT confirms EVENT_SLEEP established.")
                 elif data.get("result") == "SLEEP_FAILED":
-                    print(f"\n{node}: HaLow sleep failed; Event-Trigger disarmed. Check RTT; retry arm or select radio gated.")
+                    self.announce(f"\n{node}: HaLow sleep failed; Event-Trigger disarmed. Check RTT; retry arm or select radio gated.")
                 elif data.get("result") == "ARM_EXPIRED":
                     completion = data.get("completion_id")
                     if type(completion) is int and completion > 0:
@@ -354,23 +414,23 @@ class Controller(cmd.Cmd):
                     identity = (node, boot, completion)
                     if identity not in self.completions:
                         self.completions.add(identity)
-                        print(f"\n{node}: Event-Trigger session completed/disarmed; awake for commands.")
+                        self.announce(f"\n{node}: Event-Trigger session completed/disarmed; awake for commands.")
                 elif data.get("seq") == 0:
                     if not old or old[:2] != (address, boot):
                         name = data.get("nickname") or node
-                        print(f"\n{node}: ready. Run: ping {name}")
+                        self.announce(f"\n{node}: ready. Run: ping {name}")
                 elif not waiter:
-                    print(f"\n{node}: late reply: {data.get('result')}")
+                    self.announce(f"\n{node}: late reply: {data.get('result')}")
             except LogWriteError as error:
-                print(f"\nEvent log write failed; packet not acknowledged: {error}")
+                self.announce(f"\nEvent log write failed; packet not acknowledged: {error}")
             except socket.timeout:
                 continue
             except (ValueError, KeyError, TypeError, UnicodeError):
                 continue
             except OSError:
                 if not self.stopping.is_set():
-                    print("\nUDP receive failed")
-                break
+                    self.announce("\nUDP operation failed; receiver remains active")
+                continue
     def request(self, node, operation, *, display=True):
         """Retry the identical sequence/boot tuple; a timeout is never success."""
         with self.lock:
@@ -543,7 +603,7 @@ class Controller(cmd.Cmd):
             if data.get("seq") == request["seq"] and request["boot"] == boot:
                 if data.get("result") in ("AAD_DISARMED", "EVENT_TRIGGER_DISARMED"):
                     request["state"] = "acknowledged"
-                    print(f"{node}: disarm acknowledged/completed")
+                    self.announce(f"{node}: disarm acknowledged/completed")
                     return
                 if data.get("result") in ("BUSY", "STALE_SEQUENCE", "AAD_FAILED", "EVENT_TRIGGER_FAILED"):
                     request["seq"] = None
@@ -558,7 +618,7 @@ class Controller(cmd.Cmd):
             request["sent"] = now
             if request["state"] != "delivered":
                 request["state"] = "delivered"
-                print(f"{node}: disarm delivered (sent); awaiting acknowledgement")
+                self.announce(f"{node}: disarm delivered (sent); awaiting acknowledgement")
     def do_radio(self, line):
         """radio NODE wnm|gated [retained|powerdown]: select sleep before arm (default wnm retained)."""
         args = shlex.split(line)
