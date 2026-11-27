@@ -33,4 +33,4 @@ def extract_measurements(input_csv, output_csv, threshold_ua=100000):
 
 
 # --- Usage Example ---
-extract_measurements("first_measurement.csv", "summary.csv")
+extract_measurements("second_measurement.csv", "second_summary.csv", 10000)

@@ -35,6 +35,7 @@ class EventJournal:
         self.active_nodes = set()
         self.arm_replies = set()
         self.events = set()
+        self.upkeep_contacts = {}
         self.config_snapshots = {}
     def records(self):
         """Recover only the concise recording rows; never retain raw messages."""
@@ -135,6 +136,13 @@ class EventJournal:
             now = datetime.now(timezone.utc).isoformat(timespec="milliseconds")
             arm = result in ("AAD_ARMED", "EVENT_TRIGGER_ARMED", "WAIT_TIME_SYNC")
             try:
+                if result == "NETWORK_UPKEEP_CONTACT":
+                    identity = (data.get("boot"), data.get("contact_id"))
+                    if self.upkeep_contacts.get(node) == identity:
+                        return False
+                    self._write(self.format_line(data, now))
+                    self.upkeep_contacts[node] = identity
+                    return True
                 if arm:
                     reply = (node, data.get("boot"), data.get("seq"))
                     if reply in self.arm_replies:
@@ -172,6 +180,8 @@ class EventJournal:
             return instant.strftime("%Y-%m-%d %H:%M:%S") + " " + zone
         result = str(data.get("result", "UNKNOWN"))
         message = result.removeprefix("EVENT_TRIGGER_").removeprefix("AAD_")
+        if result == "NETWORK_UPKEEP_CONTACT":
+            message = "NETWORK UPKEEP CONTACT"
         is_event = result == "EVENT"
         timestamp = local_time(data.get("recording_start_utc") if is_event else received_utc)
         parts = [timestamp, clean(data["node"]), clean(message)]
@@ -260,6 +270,7 @@ CONFIG_KEYS = {
     "geophone": ("enabled", "sample_rate_sps", "gain", "filter", "mode", "duty_cycle", "threshold_uv"),
     "geophone_recording": ("sample_rate_sps", "gain", "filter", "mode", "duty_cycle"),
     "recording": ("seconds",),
+    "recovery": ("timeout_s", "backoff_first_s", "backoff_second_s"),
     "aad": ("standby", "transmission_correction_ms", "contact_window_s", "retry_interval_s"),
     "battery": ("low_warning_mv", "cutoff_mv", "cutoff_delay_s"),
     "halow": ("enabled", "ssid", "password", "country", "bssid"),
@@ -357,14 +368,14 @@ class Controller(cmd.Cmd):
                     old = self.nodes.get(node)
                     if old and old[1] == boot and old[0] != address:
                         # Gated wake can obtain a different DHCP lease. Only a
-                        # same-boot event or announcement on the existing port may move identity;
+                        # same-boot event on the existing port or a fresh announcement may move identity;
                         # unsolicited command replies cannot redirect a pending request.
                         event_id = data.get("event")
-                        announcement = data.get("result") in ("READY", "TIME_REQUEST")
+                        announcement = data.get("result") in ("READY", "TIME_REQUEST", "NETWORK_UPKEEP_CONTACT")
                         valid_event = data.get("result") == "EVENT" and isinstance(event_id, int) and 0 < event_id <= 0xFFFFFFFF
-                        if address[1] != old[0][1] or not (announcement or valid_event):
+                        if not announcement and (address[1] != old[0][1] or not valid_event):
                             continue
-                    if old and old[1] != boot and data.get("seq") != 0 and data.get("result") != "TIME_REQUEST":
+                    if old and old[1] != boot and data.get("seq") != 0 and data.get("result") not in ("TIME_REQUEST", "NETWORK_UPKEEP_CONTACT"):
                         continue  # Only a boot announcement may replace the learned generation.
                     # Event packets omit status fields; retain the nickname for this boot.
                     if old and old[1] == boot and "nickname" not in data:
@@ -375,9 +386,11 @@ class Controller(cmd.Cmd):
                         waiter[1].append(data)
                         waiter[0].set()
                 if data.get("result") != "EVENT" and data.get("result") != "CONFIG_VALUE":
-                    self.journal.record(data)
+                    fresh_notice = self.journal.record(data)
                 self.service_disarm(node, boot, address, data)
-                if data.get("result") == "TIME_REQUEST":
+                if data.get("result") in ("TIME_REQUEST", "NETWORK_UPKEEP_CONTACT"):
+                    if data.get("result") == "NETWORK_UPKEEP_CONTACT" and fresh_notice:
+                        self.announce(f"\n{node}: NETWORK UPKEEP CONTACT")
                     nonce = data.get("nonce")
                     if type(nonce) is int and 0 < nonce <= 0xFFFFFFFF:
                         # Capture UTC after parsing/dispatch, immediately before sendto.
