@@ -1,0 +1,131 @@
+=== NODE CONFIGURATION: HE-E956678F8A ===
+
+[config]
+version = 1
+
+[mic1]
+enabled = true
+mode = analog
+analog_threshold = 9
+analog_lpf = 1
+floor = 22
+absolute_threshold = 275
+relative_threshold = 36
+relative_pulse_min = 0
+absolute_pulse_min = 0
+
+[geophone]
+enabled = true
+sample_rate_sps = 2400.000
+gain = 128
+filter = sinc3
+mode = duty_cycle
+duty_cycle = 1/16
+threshold_uv = 300
+
+[geophone_recording]
+sample_rate_sps = 500.000
+gain = 128
+filter = sinc3
+mode = continuous
+duty_cycle = off
+
+[recording]
+seconds = 2
+
+[aad]
+standby = true
+transmission_correction_ms = 0
+contact_window_s = 5
+retry_interval_s = 1000
+
+[battery]
+low_warning_mv = 3400
+cutoff_mv = 3200
+cutoff_delay_s = 10
+
+[halow]
+enabled = true
+ssid = halowlink2-7e17
+country = EU
+bssid = 50:2E:91:D2:CC:10
+
+[network]
+mode = dhcp
+ip = 192.168.12.112
+netmask = 255.255.255.0
+gateway = 192.168.12.157
+dns = 8.8.8.8
+
+[event]
+server_ip = 192.168.12.157
+port = 5005
+
+[storage]
+sd_size = 0
+recording_size_per_second = 82000
+
+[node]
+nickname = 6
+
+[mic2]
+enabled = true
+mode = analog
+analog_threshold = 9
+analog_lpf = 1
+floor = 22
+absolute_threshold = 275
+relative_threshold = 36
+relative_pulse_min = 0
+absolute_pulse_min = 0
+
+=== EVENT LOG ===
+2026-11-25 16:31:51 CET | HE-E956678F8A | ARMED
+2026-11-25 16:32:08 CET | HE-E956678F8A | EVENT #865 | OK | GEO | 2.0s | Stored: 540 | Remaining: 183473
+2026-11-25 16:33:29 CET | HE-E956678F8A | EVENT #866 | OK | GEO | 2.0s | Stored: 541 | Remaining: 183472
+2026-11-25 16:33:52 CET | HE-E956678F8A | EVENT #867 | OK | MIC1 | 2.0s | Stored: 542 | Remaining: 183471
+2026-11-25 16:34:13 CET | HE-E956678F8A | EVENT #868 | OK | GEO | 2.0s | Stored: 543 | Remaining: 183470
+2026-11-25 16:34:34 CET | HE-E956678F8A | EVENT #869 | OK | MIC1+MIC2 | 2.0s | Stored: 544 | Remaining: 183469
+2026-11-25 16:34:56 CET | HE-E956678F8A | EVENT #870 | OK | MIC1+MIC2+GEO | 2.0s | Stored: 545 | Remaining: 183468
+2026-11-25 16:35:06 CET | HE-E956678F8A | EVENT #871 | OK | GEO | 2.0s | Stored: 546 | Remaining: 183467
+2026-11-25 16:35:13 CET | HE-E956678F8A | EVENT #872 | OK | MIC2 | 2.0s | Stored: 547 | Remaining: 183466
+2026-11-25 16:36:02 CET | HE-E956678F8A | EVENT #873 | OK | GEO | 2.0s | Stored: 548 | Remaining: 183465
+2026-11-25 16:36:10 CET | HE-E956678F8A | EVENT #874 | OK | GEO | 2.0s | Stored: 549 | Remaining: 183464
+2026-11-25 16:36:20 CET | HE-E956678F8A | EVENT #875 | OK | MIC2 | 2.0s | Stored: 550 | Remaining: 183463
+2026-11-25 16:36:28 CET | HE-E956678F8A | EVENT #876 | OK | MIC2 | 2.0s | Stored: 551 | Remaining: 183462
+2026-11-25 16:36:33 CET | HE-E956678F8A | EVENT #877 | OK | MIC1+MIC2 | 2.0s | Stored: 552 | Remaining: 183461
+2026-11-25 16:36:38 CET | HE-E956678F8A | EVENT #878 | OK | MIC1+MIC2 | 2.0s | Stored: 553 | Remaining: 183460
+2026-11-25 16:36:43 CET | HE-E956678F8A | EVENT #879 | OK | GEO | 2.0s | Stored: 554 | Remaining: 183459
+2026-11-25 16:36:57 CET | HE-E956678F8A | EVENT #880 | OK | MIC1 | 2.0s | Stored: 555 | Remaining: 183458
+2026-11-25 16:37:02 CET | HE-E956678F8A | EVENT #881 | OK | MIC2 | 2.0s | Stored: 556 | Remaining: 183457
+2026-11-25 16:37:14 CET | HE-E956678F8A | EVENT #882 | OK | GEO | 2.0s | Stored: 557 | Remaining: 183456
+2026-11-25 16:37:18 CET | HE-E956678F8A | EVENT #883 | OK | MIC2 | 2.0s | Stored: 558 | Remaining: 183455
+2026-11-25 16:37:26 CET | HE-E956678F8A | EVENT #884 | OK | MIC1 | 2.0s | Stored: 559 | Remaining: 183454
+2026-11-25 16:37:33 CET | HE-E956678F8A | EVENT #885 | OK | MIC1 | 2.0s | Stored: 560 | Remaining: 183453
+2026-11-25 16:37:45 CET | HE-E956678F8A | EVENT #886 | OK | GEO | 2.0s | Stored: 561 | Remaining: 183452
+2026-11-25 16:37:53 CET | HE-E956678F8A | EVENT #887 | OK | MIC1 | 2.0s | Stored: 562 | Remaining: 183451
+2026-11-25 16:38:00 CET | HE-E956678F8A | EVENT #888 | OK | MIC1 | 2.0s | Stored: 563 | Remaining: 183450
+2026-11-25 16:38:07 CET | HE-E956678F8A | EVENT #889 | OK | MIC2 | 2.0s | Stored: 564 | Remaining: 183449
+2026-11-25 16:38:13 CET | HE-E956678F8A | EVENT #890 | OK | MIC1+MIC2 | 2.0s | Stored: 565 | Remaining: 183448
+2026-11-25 16:38:18 CET | HE-E956678F8A | EVENT #891 | OK | GEO | 2.0s | Stored: 566 | Remaining: 183447
+2026-11-25 16:38:25 CET | HE-E956678F8A | EVENT #892 | OK | MIC2 | 2.0s | Stored: 567 | Remaining: 183446
+2026-11-25 16:38:29 CET | HE-E956678F8A | EVENT #893 | OK | MIC1+MIC2 | 2.0s | Stored: 568 | Remaining: 183445
+2026-11-25 16:38:36 CET | HE-E956678F8A | EVENT #894 | FAILED | MIC1 | 2.0s | Stored: 568 | Remaining: 183444 | Error: STORAGE_QUEUE_DROP
+2026-11-25 16:38:42 CET | HE-E956678F8A | EVENT #895 | OK | MIC1+MIC2 | 2.0s | Stored: 569 | Remaining: 183443
+2026-11-25 16:38:55 CET | HE-E956678F8A | EVENT #896 | OK | MIC1 | 2.0s | Stored: 570 | Remaining: 183442
+2026-11-25 16:39:09 CET | HE-E956678F8A | EVENT #897 | OK | MIC1+MIC2 | 2.0s | Stored: 571 | Remaining: 183441
+2026-11-25 16:39:13 CET | HE-E956678F8A | EVENT #898 | OK | GEO | 2.0s | Stored: 572 | Remaining: 183440
+2026-11-25 16:39:32 CET | HE-E956678F8A | EVENT #899 | OK | MIC1 | 2.0s | Stored: 573 | Remaining: 183439
+2026-11-25 16:39:49 CET | HE-E956678F8A | EVENT #900 | OK | MIC1 | 2.0s | Stored: 574 | Remaining: 183438
+2026-11-25 16:39:53 CET | HE-E956678F8A | EVENT #901 | OK | GEO | 2.0s | Stored: 575 | Remaining: 183437
+2026-11-25 16:40:15 CET | HE-E956678F8A | EVENT #902 | OK | GEO | 2.0s | Stored: 576 | Remaining: 183436
+2026-11-25 16:40:23 CET | HE-E956678F8A | EVENT #903 | OK | GEO | 2.0s | Stored: 577 | Remaining: 183435
+2026-11-25 16:44:26 CET | HE-E956678F8A | EVENT #904 | OK | GEO | 2.0s | Stored: 578 | Remaining: 183434
+2026-11-25 16:45:29 CET | HE-E956678F8A | EVENT #905 | OK | MIC1+MIC2 | 2.0s | Stored: 579 | Remaining: 183433
+2026-11-25 16:45:34 CET | HE-E956678F8A | EVENT #906 | OK | GEO | 2.0s | Stored: 580 | Remaining: 183432
+2026-11-25 16:45:38 CET | HE-E956678F8A | EVENT #907 | OK | MIC1+MIC2+GEO | 2.0s | Stored: 581 | Remaining: 183431
+2026-11-25 16:45:44 CET | HE-E956678F8A | EVENT #908 | OK | MIC1 | 2.0s | Stored: 582 | Remaining: 183430
+2026-11-25 16:48:41 CET | HE-E956678F8A | EVENT #909 | OK | GEO | 2.0s | Stored: 583 | Remaining: 183429
+2026-11-25 16:49:03 CET | HE-E956678F8A | EVENT #910 | OK | GEO | 2.0s | Stored: 584 | Remaining: 183428
+2026-11-25 16:49:15 CET | HE-E956678F8A | EVENT #911 | OK | MIC1+MIC2 | 2.0s | Stored: 585 | Remaining: 183427
+2026-11-25 16:49:25 CET | HE-E956678F8A | EVENT #912 | OK | GEO | 2.0s | Stored: 586 | Remaining: 183426

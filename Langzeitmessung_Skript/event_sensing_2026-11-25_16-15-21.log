@@ -1,0 +1,86 @@
+=== NODE CONFIGURATION: HE-E956678F8A ===
+
+[config]
+version = 1
+
+[mic1]
+enabled = true
+mode = analog
+analog_threshold = 9
+analog_lpf = 1
+floor = 22
+absolute_threshold = 275
+relative_threshold = 36
+relative_pulse_min = 0
+absolute_pulse_min = 0
+
+[geophone]
+enabled = true
+sample_rate_sps = 2400.000
+gain = 128
+filter = sinc3
+mode = duty_cycle
+duty_cycle = 1/16
+threshold_uv = 300
+
+[geophone_recording]
+sample_rate_sps = 500.000
+gain = 128
+filter = sinc3
+mode = continuous
+duty_cycle = off
+
+[recording]
+seconds = 2
+
+[aad]
+standby = true
+transmission_correction_ms = 0
+contact_window_s = 5
+retry_interval_s = 1000
+
+[battery]
+low_warning_mv = 3400
+cutoff_mv = 3200
+cutoff_delay_s = 10
+
+[halow]
+enabled = true
+ssid = halowlink2-7e17
+country = EU
+bssid = 50:2E:91:D2:CC:10
+
+[network]
+mode = dhcp
+ip = 192.168.12.112
+netmask = 255.255.255.0
+gateway = 192.168.12.157
+dns = 8.8.8.8
+
+[event]
+server_ip = 192.168.12.157
+port = 5005
+
+[storage]
+sd_size = 0
+recording_size_per_second = 82000
+
+[node]
+nickname = 6
+
+[mic2]
+enabled = true
+mode = analog
+analog_threshold = 9
+analog_lpf = 1
+floor = 22
+absolute_threshold = 275
+relative_threshold = 36
+relative_pulse_min = 0
+absolute_pulse_min = 0
+
+=== EVENT LOG ===
+2026-11-25 16:23:10 CET | HE-E956678F8A | ARMED
+2026-11-25 16:23:20 CET | HE-E956678F8A | EVENT #862 | OK | GEO | 2.0s | Stored: 537 | Remaining: 183476
+2026-11-25 16:23:46 CET | HE-E956678F8A | EVENT #863 | OK | GEO | 2.0s | Stored: 538 | Remaining: 183475
+2026-11-25 16:24:27 CET | HE-E956678F8A | EVENT #864 | OK | MIC1+MIC2+GEO | 2.0s | Stored: 539 | Remaining: 183474

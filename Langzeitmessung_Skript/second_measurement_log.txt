@@ -1,0 +1,421 @@
+(base) ➜  Langzeitmessung_Skript git:(main) ✗ python event_node.py
+Measurement log: /home/student/Desktop/MT_Filippo_Christen_Langzeitmessung/Langzeitmessung_Experiment/Langzeitmessung_Skript/event_sensing_2026-11-25_16-29-56.log
+Waiting for nodes. Type help for commands.
+event> 
+HE-E956678F8A: ready. Run: ping 6
+ping 6
+{
+  "protocol": "ED1",
+  "node": "HE-E956678F8A",
+  "boot": "HE-E956678F8A-450",
+  "seq": 1795620596053694,
+  "result": "PONG",
+  "recording_error": "NONE",
+  "nickname": "6",
+  "arm_remaining_s": 0,
+  "state": "WAIT_COMMAND",
+  "gnss_initialized": 0,
+  "gnss_locked": 0,
+  "mic0_ok": 1,
+  "mic1_ok": 1,
+  "seismic_ok": 1,
+  "sd_selftest_ok": 1,
+  "halow_ready": 1,
+  "packet_test_ok": 1,
+  "ble": "OFF",
+  "csi": "OFF",
+  "internal_sensing": "OFF",
+  "event_trigger": "DISARMED",
+  "time_synchronized": 1,
+  "errors": 0,
+  "event_pending": 0,
+  "event_tx_attempts": 0
+}
+event> config 6 show
+6: active configuration (RAM)
+config.version                              1
+mic1.enabled                                true
+mic1.mode                                   analog
+mic1.analog_threshold                       9
+mic1.analog_lpf                             1
+mic1.floor                                  22
+mic1.absolute_threshold                     275
+mic1.relative_threshold                     36
+mic1.relative_pulse_min                     0
+mic1.absolute_pulse_min                     0
+geophone.enabled                            true
+geophone.sample_rate_sps                    2400.000
+geophone.gain                               128
+geophone.filter                             sinc3
+geophone.mode                               duty_cycle
+geophone.duty_cycle                         1/16
+geophone.threshold_uv                       300
+geophone_recording.sample_rate_sps          500.000
+geophone_recording.gain                     128
+geophone_recording.filter                   sinc3
+geophone_recording.mode                     continuous
+geophone_recording.duty_cycle               off
+recording.seconds                           2
+aad.standby                                 true
+aad.transmission_correction_ms              0
+aad.contact_window_s                        5
+aad.retry_interval_s                        1000
+battery.low_warning_mv                      3400
+battery.cutoff_mv                           3200
+battery.cutoff_delay_s                      10
+halow.enabled                               true
+halow.ssid                                  halowlink2-7e17
+halow.password                              ********
+halow.country                               EU
+halow.bssid                                 50:2E:91:D2:CC:10
+network.mode                                dhcp
+network.ip                                  192.168.12.112
+network.netmask                             255.255.255.0
+network.gateway                             192.168.12.157
+network.dns                                 8.8.8.8
+event.server_ip                             192.168.12.157
+event.port                                  5005
+storage.sd_size                             0
+storage.recording_size_per_second           82000
+node.nickname                               6
+mic2.enabled                                true
+mic2.mode                                   analog
+mic2.analog_threshold                       9
+mic2.analog_lpf                             1
+mic2.floor                                  22
+mic2.absolute_threshold                     275
+mic2.relative_threshold                     36
+mic2.relative_pulse_min                     0
+mic2.absolute_pulse_min                     0
+event> arm 6 
+{
+  "protocol": "ED1",
+  "node": "HE-E956678F8A",
+  "boot": "HE-E956678F8A-450",
+  "seq": 1795620596053802,
+  "result": "EVENT_TRIGGER_ARMED",
+  "recording_error": "NONE",
+  "nickname": "6",
+  "arm_remaining_s": 0,
+  "state": "EVENT_MONITORING",
+  "gnss_initialized": 0,
+  "gnss_locked": 0,
+  "mic0_ok": 1,
+  "mic1_ok": 1,
+  "seismic_ok": 1,
+  "sd_selftest_ok": 1,
+  "halow_ready": 1,
+  "packet_test_ok": 1,
+  "ble": "OFF",
+  "csi": "OFF",
+  "internal_sensing": "OFF",
+  "event_trigger": "ARMED",
+  "time_synchronized": 1,
+  "standby_enabled": 1,
+  "radio_mode": "wnm",
+  "wnm_depth": "retained",
+  "seconds": 2,
+  "threshold": 4,
+  "lpf": 1,
+  "errors": 0,
+  "event_pending": 0,
+  "event_tx_attempts": 0,
+  "aad_clock_hz": 0,
+  "aad_config": [
+    [
+      1,
+      0,
+      9,
+      1,
+      22,
+      275,
+      36,
+      0,
+      0
+    ],
+    [
+      1,
+      0,
+      9,
+      1,
+      22,
+      275,
+      36,
+      0,
+      0
+    ]
+  ]
+}
+event> 
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: event 865, SD session 865, recording_ok=1, recording_error=NONE, trigger=GEO, microphone_mask=0, Switzerland=2026-11-25T16:32:08.229+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30089724912 bytes / 183473 events, completed=540
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: event 866, SD session 866, recording_ok=1, recording_error=NONE, trigger=GEO, microphone_mask=0, Switzerland=2026-11-25T16:33:29.776+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30089560912 bytes / 183472 events, completed=541
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: Event-Trigger WAKE DETECTED, microphone_mask=1, counts MIC1/MIC2=[1, 0] (since boot)
+
+HE-E956678F8A: event 867, SD session 867, recording_ok=1, recording_error=NONE, trigger=MIC, microphone_mask=1, Switzerland=2026-11-25T16:33:52.755+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30089396912 bytes / 183471 events, completed=542
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: event 868, SD session 868, recording_ok=1, recording_error=NONE, trigger=GEO, microphone_mask=0, Switzerland=2026-11-25T16:34:13.347+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30089232912 bytes / 183470 events, completed=543
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: Event-Trigger WAKE DETECTED, microphone_mask=3, counts MIC1/MIC2=[2, 1] (since boot)
+
+HE-E956678F8A: event 869, SD session 869, recording_ok=1, recording_error=NONE, trigger=MIC, microphone_mask=3, Switzerland=2026-11-25T16:34:34.417+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30089068912 bytes / 183469 events, completed=544
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: Event-Trigger WAKE DETECTED, microphone_mask=3, counts MIC1/MIC2=[3, 2] (since boot)
+
+HE-E956678F8A: event 870, SD session 870, recording_ok=1, recording_error=NONE, trigger=MIC+GEO, microphone_mask=3, Switzerland=2026-11-25T16:34:56.951+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30088904912 bytes / 183468 events, completed=545
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: event 871, SD session 871, recording_ok=1, recording_error=NONE, trigger=GEO, microphone_mask=0, Switzerland=2026-11-25T16:35:06.557+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30088740912 bytes / 183467 events, completed=546
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: Event-Trigger WAKE DETECTED, microphone_mask=2, counts MIC1/MIC2=[3, 3] (since boot)
+
+HE-E956678F8A: event 872, SD session 872, recording_ok=1, recording_error=NONE, trigger=MIC, microphone_mask=2, Switzerland=2026-11-25T16:35:13.878+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30088576912 bytes / 183466 events, completed=547
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: event 873, SD session 873, recording_ok=1, recording_error=NONE, trigger=GEO, microphone_mask=0, Switzerland=2026-11-25T16:36:02.162+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30088412912 bytes / 183465 events, completed=548
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: event 874, SD session 874, recording_ok=1, recording_error=NONE, trigger=GEO, microphone_mask=0, Switzerland=2026-11-25T16:36:10.587+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30088248912 bytes / 183464 events, completed=549
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: Event-Trigger WAKE DETECTED, microphone_mask=2, counts MIC1/MIC2=[3, 4] (since boot)
+
+HE-E956678F8A: event 875, SD session 875, recording_ok=1, recording_error=NONE, trigger=MIC, microphone_mask=2, Switzerland=2026-11-25T16:36:20.654+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30088084912 bytes / 183463 events, completed=550
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: Event-Trigger WAKE DETECTED, microphone_mask=2, counts MIC1/MIC2=[3, 5] (since boot)
+
+HE-E956678F8A: event 876, SD session 876, recording_ok=1, recording_error=NONE, trigger=MIC, microphone_mask=2, Switzerland=2026-11-25T16:36:28.953+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30087920912 bytes / 183462 events, completed=551
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: Event-Trigger WAKE DETECTED, microphone_mask=3, counts MIC1/MIC2=[4, 6] (since boot)
+
+HE-E956678F8A: event 877, SD session 877, recording_ok=1, recording_error=NONE, trigger=MIC, microphone_mask=3, Switzerland=2026-11-25T16:36:33.379+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30087756912 bytes / 183461 events, completed=552
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: event 878, SD session 878, recording_ok=1, recording_error=NONE, trigger=MIC, microphone_mask=3, Switzerland=2026-11-25T16:36:38.124+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30087592912 bytes / 183460 events, completed=553
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: event 879, SD session 879, recording_ok=1, recording_error=NONE, trigger=GEO, microphone_mask=0, Switzerland=2026-11-25T16:36:43.207+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30087428912 bytes / 183459 events, completed=554
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: Event-Trigger WAKE DETECTED, microphone_mask=1, counts MIC1/MIC2=[6, 7] (since boot)
+
+HE-E956678F8A: event 880, SD session 880, recording_ok=1, recording_error=NONE, trigger=MIC, microphone_mask=1, Switzerland=2026-11-25T16:36:57.999+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30087264912 bytes / 183458 events, completed=555
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: Event-Trigger WAKE DETECTED, microphone_mask=2, counts MIC1/MIC2=[6, 8] (since boot)
+
+HE-E956678F8A: event 881, SD session 881, recording_ok=1, recording_error=NONE, trigger=MIC, microphone_mask=2, Switzerland=2026-11-25T16:37:02.351+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30087100912 bytes / 183457 events, completed=556
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: event 882, SD session 882, recording_ok=1, recording_error=NONE, trigger=GEO, microphone_mask=0, Switzerland=2026-11-25T16:37:14.327+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30086936912 bytes / 183456 events, completed=557
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: Event-Trigger WAKE DETECTED, microphone_mask=2, counts MIC1/MIC2=[6, 9] (since boot)
+
+HE-E956678F8A: event 883, SD session 883, recording_ok=1, recording_error=NONE, trigger=MIC, microphone_mask=2, Switzerland=2026-11-25T16:37:18.968+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30086772912 bytes / 183455 events, completed=558
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: Event-Trigger WAKE DETECTED, microphone_mask=1, counts MIC1/MIC2=[7, 9] (since boot)
+
+HE-E956678F8A: event 884, SD session 884, recording_ok=1, recording_error=NONE, trigger=MIC, microphone_mask=1, Switzerland=2026-11-25T16:37:26.142+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30086608912 bytes / 183454 events, completed=559
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: Event-Trigger WAKE DETECTED, microphone_mask=1, counts MIC1/MIC2=[8, 9] (since boot)
+
+HE-E956678F8A: event 885, SD session 885, recording_ok=1, recording_error=NONE, trigger=MIC, microphone_mask=1, Switzerland=2026-11-25T16:37:33.777+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30086444912 bytes / 183453 events, completed=560
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: event 886, SD session 886, recording_ok=1, recording_error=NONE, trigger=GEO, microphone_mask=0, Switzerland=2026-11-25T16:37:45.676+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30086280912 bytes / 183452 events, completed=561
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: Event-Trigger WAKE DETECTED, microphone_mask=1, counts MIC1/MIC2=[9, 9] (since boot)
+
+HE-E956678F8A: event 887, SD session 887, recording_ok=1, recording_error=NONE, trigger=MIC, microphone_mask=1, Switzerland=2026-11-25T16:37:53.989+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30086116912 bytes / 183451 events, completed=562
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: Event-Trigger WAKE DETECTED, microphone_mask=1, counts MIC1/MIC2=[10, 9] (since boot)
+
+HE-E956678F8A: event 888, SD session 888, recording_ok=1, recording_error=NONE, trigger=MIC, microphone_mask=1, Switzerland=2026-11-25T16:38:00.091+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30085952912 bytes / 183450 events, completed=563
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: Event-Trigger WAKE DETECTED, microphone_mask=2, counts MIC1/MIC2=[10, 10] (since boot)
+
+HE-E956678F8A: event 889, SD session 889, recording_ok=1, recording_error=NONE, trigger=MIC, microphone_mask=2, Switzerland=2026-11-25T16:38:07.788+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30085788912 bytes / 183449 events, completed=564
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: Event-Trigger WAKE DETECTED, microphone_mask=3, counts MIC1/MIC2=[11, 11] (since boot)
+
+HE-E956678F8A: event 890, SD session 890, recording_ok=1, recording_error=NONE, trigger=MIC, microphone_mask=3, Switzerland=2026-11-25T16:38:13.534+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30085624912 bytes / 183448 events, completed=565
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: event 891, SD session 891, recording_ok=1, recording_error=NONE, trigger=GEO, microphone_mask=0, Switzerland=2026-11-25T16:38:18.156+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30085460912 bytes / 183447 events, completed=566
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: event 892, SD session 892, recording_ok=1, recording_error=NONE, trigger=MIC, microphone_mask=2, Switzerland=2026-11-25T16:38:25.025+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30085296912 bytes / 183446 events, completed=567
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: Event-Trigger WAKE DETECTED, microphone_mask=3, counts MIC1/MIC2=[12, 13] (since boot)
+
+HE-E956678F8A: event 893, SD session 893, recording_ok=1, recording_error=NONE, trigger=MIC, microphone_mask=3, Switzerland=2026-11-25T16:38:29.807+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30085132912 bytes / 183445 events, completed=568
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: Event-Trigger WAKE DETECTED, microphone_mask=1, counts MIC1/MIC2=[13, 13] (since boot)
+
+HE-E956678F8A: event 894, SD session 894, recording_ok=0, recording_error=STORAGE_QUEUE_DROP, trigger=MIC, microphone_mask=1, Switzerland=2026-11-25T16:38:36.936+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30084968912 bytes / 183444 events, completed=568
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: Event-Trigger WAKE DETECTED, microphone_mask=3, counts MIC1/MIC2=[14, 14] (since boot)
+
+HE-E956678F8A: event 895, SD session 895, recording_ok=1, recording_error=NONE, trigger=MIC, microphone_mask=3, Switzerland=2026-11-25T16:38:42.349+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30084804912 bytes / 183443 events, completed=569
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: Event-Trigger WAKE DETECTED, microphone_mask=1, counts MIC1/MIC2=[15, 14] (since boot)
+
+HE-E956678F8A: event 896, SD session 896, recording_ok=1, recording_error=NONE, trigger=MIC, microphone_mask=1, Switzerland=2026-11-25T16:38:55.265+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30084640912 bytes / 183442 events, completed=570
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: Event-Trigger WAKE DETECTED, microphone_mask=3, counts MIC1/MIC2=[16, 15] (since boot)
+
+HE-E956678F8A: event 897, SD session 897, recording_ok=1, recording_error=NONE, trigger=MIC, microphone_mask=3, Switzerland=2026-11-25T16:39:09.136+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30084476912 bytes / 183441 events, completed=571
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: event 898, SD session 898, recording_ok=1, recording_error=NONE, trigger=GEO, microphone_mask=0, Switzerland=2026-11-25T16:39:13.404+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30084312912 bytes / 183440 events, completed=572
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: Event-Trigger WAKE DETECTED, microphone_mask=1, counts MIC1/MIC2=[17, 15] (since boot)
+
+HE-E956678F8A: event 899, SD session 899, recording_ok=1, recording_error=NONE, trigger=MIC, microphone_mask=1, Switzerland=2026-11-25T16:39:32.384+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30084148912 bytes / 183439 events, completed=573
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: Event-Trigger WAKE DETECTED, microphone_mask=1, counts MIC1/MIC2=[18, 15] (since boot)
+
+HE-E956678F8A: event 900, SD session 900, recording_ok=1, recording_error=NONE, trigger=MIC, microphone_mask=1, Switzerland=2026-11-25T16:39:49.746+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30083984912 bytes / 183438 events, completed=574
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: event 901, SD session 901, recording_ok=1, recording_error=NONE, trigger=GEO, microphone_mask=0, Switzerland=2026-11-25T16:39:53.983+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30083820912 bytes / 183437 events, completed=575
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: event 902, SD session 902, recording_ok=1, recording_error=NONE, trigger=GEO, microphone_mask=0, Switzerland=2026-11-25T16:40:15.585+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30083656912 bytes / 183436 events, completed=576
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: event 903, SD session 903, recording_ok=1, recording_error=NONE, trigger=GEO, microphone_mask=0, Switzerland=2026-11-25T16:40:23.166+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30083492912 bytes / 183435 events, completed=577
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: event 904, SD session 904, recording_ok=1, recording_error=NONE, trigger=GEO, microphone_mask=0, Switzerland=2026-11-25T16:44:26.088+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30083328912 bytes / 183434 events, completed=578
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: Event-Trigger WAKE DETECTED, microphone_mask=3, counts MIC1/MIC2=[19, 16] (since boot)
+
+HE-E956678F8A: event 905, SD session 905, recording_ok=1, recording_error=NONE, trigger=MIC, microphone_mask=3, Switzerland=2026-11-25T16:45:29.516+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30083164912 bytes / 183433 events, completed=579
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: event 906, SD session 906, recording_ok=1, recording_error=NONE, trigger=GEO, microphone_mask=0, Switzerland=2026-11-25T16:45:34.103+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30083000912 bytes / 183432 events, completed=580
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: Event-Trigger WAKE DETECTED, microphone_mask=3, counts MIC1/MIC2=[20, 17] (since boot)
+
+HE-E956678F8A: event 907, SD session 907, recording_ok=1, recording_error=NONE, trigger=MIC+GEO, microphone_mask=3, Switzerland=2026-11-25T16:45:38.405+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30082836912 bytes / 183431 events, completed=581
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: Event-Trigger WAKE DETECTED, microphone_mask=1, counts MIC1/MIC2=[21, 17] (since boot)
+
+HE-E956678F8A: event 908, SD session 908, recording_ok=1, recording_error=NONE, trigger=MIC, microphone_mask=1, Switzerland=2026-11-25T16:45:44.700+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30082672912 bytes / 183430 events, completed=582
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: event 909, SD session 909, recording_ok=1, recording_error=NONE, trigger=GEO, microphone_mask=0, Switzerland=2026-11-25T16:48:41.711+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30082508912 bytes / 183429 events, completed=583
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: event 910, SD session 910, recording_ok=1, recording_error=NONE, trigger=GEO, microphone_mask=0, Switzerland=2026-11-25T16:49:03.537+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30082344912 bytes / 183428 events, completed=584
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: Event-Trigger WAKE DETECTED, microphone_mask=3, counts MIC1/MIC2=[22, 18] (since boot)
+
+HE-E956678F8A: event 911, SD session 911, recording_ok=1, recording_error=NONE, trigger=MIC, microphone_mask=3, Switzerland=2026-11-25T16:49:15.538+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30082180912 bytes / 183427 events, completed=585
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+
+HE-E956678F8A: event 912, SD session 912, recording_ok=1, recording_error=NONE, trigger=GEO, microphone_mask=0, Switzerland=2026-11-25T16:49:25.039+01:00 [AP_SYNCHRONIZED], battery=unavailable, SD estimate=30082016912 bytes / 183426 events, completed=586
+
+HE-E956678F8A: attempting event sleep (wnm, retained); RTT confirms EVENT_SLEEP established.
+{
+  "HE-E956678F8A": {
+    "events": 48,
+    "successful": 47,
+    "failed": 1,
+    "duration_ms": 96000,
+    "triggers": {
+      "GEO": 19,
+      "MIC1": 11,
+      "MIC1+MIC2": 9,
+      "MIC1+MIC2+GEO": 2,
+      "MIC2": 7
+    },
+    "timestamp_quality": {
+      "UNKNOWN": 48
+    },
+    "errors": {
+      "STORAGE_QUEUE_DROP": 1
+    },
+    "first_received_utc": "unavailable",
+    "last_received_utc": "unavailable"
+  }
+}
+(base) ➜  Langzeitmessung_Skript git:(main) ✗ 
+
